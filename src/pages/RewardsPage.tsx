@@ -40,7 +40,7 @@ export const RewardsPage: React.FC = () => {
       return;
     }
 
-    // Update user points
+    // TC07: Redeem earned points - deduct points and apply reward
     updateUserProfile({ points: user.points - reward.pointsCost });
 
     // Mark reward as redeemed
@@ -51,7 +51,7 @@ export const RewardsPage: React.FC = () => {
 
     toast({
       title: "Reward Redeemed! 🎉",
-      description: `You've successfully redeemed "${reward.name}". Enjoy your reward!`,
+      description: `Points deducted and reward applied. Enjoy your "${reward.name}"!`,
     });
   };
 

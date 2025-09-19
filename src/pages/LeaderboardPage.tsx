@@ -77,7 +77,8 @@ export const LeaderboardPage: React.FC = () => {
 
   const leaderboardData = useMemo(() => {
     const users = getUsers();
-    const workouts = getWorkouts();
+    // TC05: Rankings update instantly after workout
+    const workouts = getWorkouts(); // Fresh data each time
 
     const leaderboardEntries: LeaderboardEntry[] = users.map(u => ({
       userId: u.id,

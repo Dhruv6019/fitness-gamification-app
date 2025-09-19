@@ -152,6 +152,10 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children, currentPage, onP
                   <Settings className="mr-2 h-4 w-4" />
                   <span>Profile Settings</span>
                 </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => onPageChange('profile-picture')}>
+                  <Settings className="mr-2 h-4 w-4" />
+                  <span>Upload Profile Picture</span>
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout}>
                   <LogOut className="mr-2 h-4 w-4" />

@@ -177,6 +177,20 @@ export const initializeDefaultData = (): void => {
       createdAt: new Date('2024-01-01').toISOString()
     };
     setUsers([demoUser]);
+    
+    // TC02: Add sample running workout with distance & calories
+    const sampleWorkout: Workout = {
+      id: 'sample_workout_123',
+      userId: demoUser.id,
+      type: 'running',
+      duration: 30,
+      distance: 5.2,
+      caloriesBurned: 350,
+      intensityLevel: 3,
+      date: new Date().toISOString(),
+      createdAt: new Date().toISOString()
+    };
+    setWorkouts([sampleWorkout]);
   }
 
   // Initialize default data

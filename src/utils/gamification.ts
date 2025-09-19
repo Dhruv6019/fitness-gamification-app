@@ -111,6 +111,20 @@ export const checkAndAwardBadges = (user: User, workout?: Workout): Badge[] => {
 
   // Level badges
   const currentLevel = calculateLevel(user.points);
+  
+  // TC04: 1,000 points badge
+  if (user.points >= 1000 && !existingBadgeIds.includes('points_1000')) {
+    newBadges.push({
+      id: 'points_1000',
+      name: 'Point Master',
+      description: 'Earn 1,000 points',
+      icon: '💎',
+      requirement: '1,000 points earned',
+      earnedAt: new Date().toISOString(),
+      category: 'milestone'
+    });
+  }
+  
   if (currentLevel >= 5 && !existingBadgeIds.includes('level_5')) {
     newBadges.push({
       id: 'level_5',
@@ -191,9 +205,12 @@ export const updateUserWithWorkout = (workout: Workout): void => {
   
   // Calculate streak
   let newStreak = currentUser.workoutStreak;
+  let streakReset = false;
+  
   if (lastWorkoutDate === yesterday || !lastWorkoutDate) {
     newStreak = currentUser.workoutStreak + 1;
   } else if (lastWorkoutDate !== workoutDate) {
+    streakReset = currentUser.workoutStreak > 0; // TC08: Track if streak was reset
     newStreak = 1; // Reset streak if there's a gap
   }
 
@@ -212,6 +229,19 @@ export const updateUserWithWorkout = (workout: Workout): void => {
   updatedUser.badges = [...updatedUser.badges, ...newBadges];
 
   updateUser(updatedUser);
+
+  // TC08: Streak reset notification
+  if (streakReset) {
+    addNotification({
+      id: `streak_reset_${Date.now()}`,
+      userId: currentUser.id,
+      type: 'streak_warning',
+      title: 'Streak Reset',
+      message: `Your ${currentUser.workoutStreak}-day streak has been reset. Start a new one today!`,
+      isRead: false,
+      createdAt: new Date().toISOString()
+    });
+  }
 
   // Create notifications for new badges
   newBadges.forEach(badge => {

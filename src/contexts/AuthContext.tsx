@@ -118,8 +118,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setCurrentUser(newUser);
       
       toast({
-        title: "Welcome to FitGam!",
-        description: "Your account has been created successfully!",
+        title: "Account created successfully! 🎉",
+        description: "Welcome to FitGam! Your fitness journey starts now.",
       });
       
       return true;

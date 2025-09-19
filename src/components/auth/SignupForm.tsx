@@ -89,6 +89,13 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSwitchToLogin }) => {
 
   const onSubmit = async (data: SignupFormData) => {
     const { confirmPassword, ...signupData } = data;
+    
+    // TC01: User registration validation
+    if (!signupData.email || !signupData.name || !data.password) {
+      setError('email', { message: 'Please fill in all required fields' });
+      return false;
+    }
+    
     const success = await signup(signupData);
     if (!success) {
       setError('email', { message: 'An account with this email already exists' });

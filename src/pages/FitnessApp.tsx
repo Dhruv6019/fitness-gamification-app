@@ -8,6 +8,7 @@ import { LeaderboardPage } from '@/pages/LeaderboardPage';
 import { RewardsPage } from '@/pages/RewardsPage';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { WorkoutForm } from '@/components/workout/WorkoutForm';
+import { ProfilePictureUpload } from '@/components/profile/ProfilePictureUpload';
 
 export const FitnessApp: React.FC = () => {
   const { user } = useAuth();

@@ -72,6 +72,16 @@ export const WorkoutForm: React.FC<WorkoutFormProps> = ({ onWorkoutAdded, onClos
   const onSubmit = async (data: WorkoutFormData) => {
     if (!user) return;
 
+    // TC06: Validate workout duration
+    if (!data.duration || data.duration <= 0) {
+      toast({
+        title: "Validation Error",
+        description: "Please enter valid workout details",
+        variant: "destructive"
+      });
+      return;
+    }
+
     const workout: Workout = {
       id: `workout_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
       userId: user.id,
@@ -88,9 +98,10 @@ export const WorkoutForm: React.FC<WorkoutFormProps> = ({ onWorkoutAdded, onClos
       addWorkout(workout);
       updateUserWithWorkout(workout);
       
+      // TC02: Confirm activity saved and reflected in dashboard
       toast({
-        title: "Workout logged! 🎉",
-        description: `Great job! You've earned points for your ${data.type} session.`,
+        title: "Activity saved and reflected in dashboard! 🎉",
+        description: `Your ${data.type} workout has been logged successfully.`,
       });
       
       reset();

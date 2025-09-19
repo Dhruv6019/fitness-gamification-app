@@ -89,15 +89,34 @@ export const ChallengesPage: React.FC = () => {
   const joinChallenge = (challengeId: string) => {
     if (!user) return;
     
-    // Update challenge participants (in a real app, this would be done on the backend)
+    // TC03: Join challenge and award bonus points when completed
+    const updatedChallenges = challenges.map(challenge => {
+      if (challenge.id === challengeId && !challenge.participants.includes(user.id)) {
+        return { ...challenge, participants: [...challenge.participants, user.id] };
+      }
+      return challenge;
+    });
+    
+    setChallenges(updatedChallenges);
+    
     const challenge = challenges.find(c => c.id === challengeId);
-    if (challenge && !challenge.participants.includes(user.id)) {
-      challenge.participants.push(user.id);
-      
+    if (challenge) {
       toast({
         title: "Challenge joined! 🎯",
         description: `You've joined "${challenge.title}". Good luck!`,
       });
+      
+      // Check if challenge is already completed
+      const progress = calculateChallengeProgress(challenge);
+      if (progress >= 100) {
+        // Award bonus points for completed challenge
+        updateUserProfile({ points: user.points + challenge.bonusPoints });
+        
+        toast({
+          title: "Challenge Completed! 🏆",
+          description: `You've earned ${challenge.bonusPoints} bonus points!`,
+        });
+      }
     }
   };
 
