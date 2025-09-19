@@ -19,8 +19,21 @@ import {
 } from 'lucide-react';
 import { getWorkouts, getChallenges, getUserProgress, getNotifications } from '@/utils/localStorage';
 import { calculateLevel, getPointsForNextLevel } from '@/utils/gamification';
-import { format, subDays, startOfDay, endOfDay } from 'date-fns';
+import { format, subDays, startOfDay, endOfDay, isValid, parseISO } from 'date-fns';
 import { Workout, Challenge, UserProgress as UserProgressType } from '@/types/fitness';
+
+// Helper function to safely format dates
+const safeFormatDate = (dateInput: string | Date, formatString: string = 'MMM dd, yyyy') => {
+  try {
+    const date = typeof dateInput === 'string' ? parseISO(dateInput) : dateInput;
+    if (!isValid(date)) {
+      return 'Invalid date';
+    }
+    return format(date, formatString);
+  } catch {
+    return 'Invalid date';
+  }
+};
 
 export const Dashboard: React.FC = () => {
   const { user } = useAuth();
@@ -169,7 +182,7 @@ export const Dashboard: React.FC = () => {
                         <div>
                           <p className="font-medium capitalize">{workout.type}</p>
                           <p className="text-sm text-muted-foreground">
-                            {format(new Date(workout.date), 'MMM dd, yyyy')}
+                            {safeFormatDate(workout.date)}
                           </p>
                         </div>
                       </div>
@@ -243,7 +256,7 @@ export const Dashboard: React.FC = () => {
                       <div>
                         <p className="font-medium capitalize">{workout.type}</p>
                         <p className="text-sm text-muted-foreground">
-                          {format(new Date(workout.date), 'EEEE, MMM dd, yyyy')}
+                          {safeFormatDate(workout.date, 'EEEE, MMM dd, yyyy')}
                         </p>
                       </div>
                     </div>
@@ -339,7 +352,7 @@ export const Dashboard: React.FC = () => {
                         <p className="font-medium">{badge.name}</p>
                         <p className="text-sm text-muted-foreground">{badge.description}</p>
                         <p className="text-xs text-muted-foreground">
-                          Earned {format(new Date(badge.earnedAt), 'MMM dd, yyyy')}
+                          Earned {safeFormatDate(badge.earnedAt)}
                         </p>
                       </div>
                     </div>
