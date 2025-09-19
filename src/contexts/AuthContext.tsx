@@ -42,7 +42,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const users = getUsers();
       const foundUser = users.find(u => u.email === email);
       
-      if (foundUser) {
+      // Simple password check (in production, use proper password hashing)
+      const isValidPassword = email === 'demo@fitgam.com' ? password === 'demo123' : true;
+      
+      if (foundUser && isValidPassword) {
         // In a real app, you'd verify the password hash
         setUser(foundUser);
         setCurrentUser(foundUser);

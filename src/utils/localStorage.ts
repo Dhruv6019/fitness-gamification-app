@@ -134,6 +134,52 @@ export const updateUserProgress = (userId: string, challengeId: string, progress
 
 // Initialize default data
 export const initializeDefaultData = (): void => {
+  // Initialize demo user if no users exist
+  const users = getUsers();
+  if (users.length === 0) {
+    const demoUser: User = {
+      id: 'demo_user_123',
+      email: 'demo@fitgam.com',
+      name: 'Demo User',
+      profilePicture: '',
+      age: 25,
+      weight: 70,
+      height: 175,
+      fitnessGoals: ['weight_loss', 'muscle_gain'],
+      activityPreferences: ['running', 'gym', 'yoga'],
+      points: 150,
+      level: 2,
+      badges: [
+        {
+          id: 'early_bird',
+          name: 'Early Bird',
+          description: 'Workout before 7 AM',
+          icon: '🌅',
+          requirement: 'Complete a workout before 7 AM',
+          earnedAt: new Date('2024-01-15').toISOString(),
+          category: 'streak'
+        },
+        {
+          id: 'consistency_champion',
+          name: 'Consistency Champion',
+          description: 'Maintain a 7-day workout streak',
+          icon: '🏆',
+          requirement: 'Complete workouts for 7 consecutive days',
+          earnedAt: new Date('2024-01-20').toISOString(),
+          category: 'streak'
+        }
+      ],
+      joinedChallenges: [],
+      friends: [],
+      workoutStreak: 5,
+      totalWorkouts: 12,
+      totalCaloriesBurned: 3600,
+      createdAt: new Date('2024-01-01').toISOString()
+    };
+    setUsers([demoUser]);
+  }
+
+  // Initialize default data
   // Initialize default challenges if none exist
   const challenges = getChallenges();
   if (challenges.length === 0) {
